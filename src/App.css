@@ -19,10 +19,29 @@
 }
 
 .App-intro {
-  font-size: large;
+  font-size: 1rem;
+  list-style: none;
+}
+
+.App-intro li {
+  display: inline;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.selected {
+  color: orangered;
+}
+
+.not-selected {
+  color: rgb(88, 86, 86);
 }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
