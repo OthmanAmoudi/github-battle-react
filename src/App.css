@@ -29,14 +29,6 @@
   cursor: pointer;
 }
 
-.selected {
-  color: orangered;
-}
-
-.not-selected {
-  color: rgb(88, 86, 86);
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -44,4 +36,48 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.selected {
+  color: orangered;
+}
+
+.not-selected {
+  color: rgb(88, 86, 86);
+}
+.card {
+  /* display: inline; */
+  width: 220px;
+  height: 460px;
+  border: 1px solid gray;
+}
+
+.card img {
+  width: 100px;
+  height: 140px;
+}
+
+.popular-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  list-style: none;
+}
+
+.popular-list ul {
+  list-style: none;
+}
+
+.popular-item {
+  margin: 25px;
+  text-align: center;
+}
+
+.space-list-items {
+  margin-bottom: 7px;
+}
+
+.avatar {
+  width: 150px;
+  border-radius: 50%;
 }

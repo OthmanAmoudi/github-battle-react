@@ -1,7 +1,44 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import SelectedLanguage from './SelectedLanguage';
+import Card from './Card';
+// import api from './utils/api';
+var api = require('./utils/api');
 
+function RepoGrid(props) {
+  return (
+    <ul className="popular-list">
+      {
+        props.repos.map((repo, i) =>{
+        return (
+          <li key={repo.id} className="popular-item">
+            <div className="popular-rank">#{i+1}</div>
+              <ul className="space-list-items">
+                <li>
+                  <img src={repo.owner.avatar_url} alt={repo.name} className="avatar" />
+                </li>
+
+                <li>
+                  <a href={repo.html_url}> {repo.name}</a>
+                </li>
+
+                <li>
+                  <p> @{repo.owner.login}</p>
+                </li>
+
+                <li>
+                  <p>{repo.stargazers_count} stars</p>
+                </li>
+
+              </ul>
+          </li>
+        )
+        })
+      }
+    </ul>
+  )
+}
 class App extends Component {
   constructor(props) {
     super(props);
@@ -9,17 +46,32 @@ class App extends Component {
     this.handleLanguage = this.handleLanguage.bind(this);
 
     this.state = {
-      languages: ['All', 'Javascript', 'Ruby', 'Java', 'CSS', 'Python'],
-      selectedLanguage: 'All'
+      selectedLanguage: 'All',
+      repos: null
     };
   }
 
-  handleLanguage(lang){
-    this.setState(()=>{
+  componentDidMount() {
+    this.handleLanguage(this.state.selectedLanguage);
+  }
+
+  handleLanguage(lang) {
+    this.setState(() => {
       return {
-        selectedLanguage: lang
-      }
-    })
+        selectedLanguage: lang,
+        repos: null
+      };
+    });
+
+    api.fetchPopularRepos(lang).then(
+      function(repos) {
+        this.setState(() => {
+          return {
+            repos
+          };
+        });
+      }.bind(this)
+    );
   }
 
   render() {
@@ -30,17 +82,12 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         {/* ***********   end of HEADER   ******** */}
-        <ul className="App-intro">
-          {this.state.languages.map(lang => {
-            return (
-              <li
-              className={this.state.selectedLanguage === lang ? "selected" : ""}
-              key={lang} onClick={this.handleLanguage.bind(null,lang)}>
-                {lang}
-              </li>
-            );
-          })}
-        </ul>
+        <SelectedLanguage
+          selectedLanguage={this.state.selectedLanguage}
+          handleLanguage={this.handleLanguage}
+        />
+
+        { !this.state.repos ? <p>LOADING ...</p> :  <RepoGrid repos={this.state.repos} />}
       </div>
     );
   }
